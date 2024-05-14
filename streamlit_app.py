@@ -109,7 +109,7 @@ def main():
         st.download_button(
             label="Download data as CSV",
             data=csv,
-            file_name="large_df.csv",
+            file_name="stitched_data.csv",
             mime="text/csv",
             type="primary",
             use_container_width=True,
