@@ -53,6 +53,9 @@ def stitch_spreadsheets(file_list:list):
         time.sleep(1)
         notification_container.empty()
     st.toast("Done!")
+
+def set_button_primary():
+    st.session_state.button_state = "primary"
     
 
 def main():
@@ -70,13 +73,13 @@ def main():
     if "button_state" not in st.session_state:
         st.session_state.button_state = "primary"
     
-    st.session_state.uploaded_files = st.file_uploader(label="Select spreadsheets to combine:",type=['xls','xlsx','csv'],accept_multiple_files=True)
+    st.session_state.uploaded_files = st.file_uploader(label="Select spreadsheets to combine:",type=['xls','xlsx','csv'],accept_multiple_files=True,on_change=set_button_primary)
 
     if len(st.session_state.uploaded_files) > 0:
         btn_type = "secondary" if st.session_state.final_df is None else "primary"
         c0, c1, c2, c3 = st.columns([1,2,3,1])
         with c1:
-            st.checkbox("Deduplicate?",value=False,help="Check this box to remove duplicates when stitching the spreadsheets together. Only do this if you are sure that duplciate lines should be removed!")
+            st.session_state. deduplicate_tf = st.checkbox("Deduplicate?",value=False,help="Check this box to remove duplicates when stitching the spreadsheets together. Only do this if you are sure that duplciate lines should be removed!")
         with c2:
             st.button("Stitch Spreadsheets", on_click=stitch_spreadsheets, args=[st.session_state.uploaded_files], type=st.session_state.button_state)
         # st.write(st.session_state.uploaded_files)
